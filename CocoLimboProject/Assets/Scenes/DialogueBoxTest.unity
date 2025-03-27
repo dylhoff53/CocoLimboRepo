@@ -740,11 +740,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterNameString: CIA
+  messageLines:
+  - Hello!
+  - Welcome to COCONUT
+  - This is the third line!
   fullMessage: Yeah so JFKs head just kind of did that
   currentMessage: 
   characterName: {fileID: 286843121}
   dialogue: {fileID: 1615111558}
+  sentenceIndex: 0
   timePerChar: 0.075
+  timeBetweenSentence: 1
   speedVariance: 0.5
   soundEffect: {fileID: 1548662652}
   pitchShiftLow: 0.9
@@ -762,8 +768,8 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: f012e803cbb335042a0aceead45a772b, type: 3}
   m_Resource: {fileID: 8300000, guid: f012e803cbb335042a0aceead45a772b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.75
-  m_Pitch: 1
+  m_Volume: 0.5
+  m_Pitch: 0
   Loop: 0
   Mute: 0
   Spatialize: 0
