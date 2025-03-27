@@ -12,6 +12,8 @@ public class DialogueBox : MonoBehaviour
     public TextMeshProUGUI characterName;
     public TextMeshProUGUI dialogue;
 
+    public CSVReader reader;
+
     private int charIndex = 0;
     private int sentenceIndex = 0;
 
@@ -32,7 +34,9 @@ public class DialogueBox : MonoBehaviour
 
     void Start()
     {
+        messageLines = reader.getSentences();
         modifiedTimePerChar = timePerChar;
+
         fullMessage = messageLines[0];
 
         dialogue.text = "";
