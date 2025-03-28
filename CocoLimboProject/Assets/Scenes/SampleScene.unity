@@ -716,10 +716,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   lookSensitivity: 0.5
-  jumpForce: 5
-  gravity: -9.81
+  jumpForce: 2
+  gravity: -30
   cameraTransform: {fileID: 330585546}
-  interactRange: 5
+  interactRange: 3
 --- !u!135 &565919749
 SphereCollider:
   m_ObjectHideFlags: 0

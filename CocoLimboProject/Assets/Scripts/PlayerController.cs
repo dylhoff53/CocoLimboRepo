@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float interactRange = 3f; // How far the player can interact
     private bool canInteract = true;
     private GameObject currentInteractable;
+
+    private const float INTERACTION_COOLDOWN = 0.5f;
+
+    [SerializeField] private float interactionCooldown = INTERACTION_COOLDOWN;
     
 
     private Vector2 moveInput;
@@ -74,7 +78,17 @@ public class PlayerController : MonoBehaviour
             {
                 currentInteractable = null;
             }
+        } else if (!canInteract)
+        {
+            interactionCooldown -= Time.deltaTime;
+            if (interactionCooldown <= 0f)
+            {
+                canInteract = true;
+                interactionCooldown = INTERACTION_COOLDOWN;
+            }
         }
+
+                
 
         // Handle movement
         Vector3 movement = transform.right * moveInput.x + transform.forward * moveInput.y;
@@ -109,9 +123,10 @@ public class PlayerController : MonoBehaviour
     // Input System callback for interact
     public void OnInteract(InputAction.CallbackContext value)
     {
-        if (value.phase == InputActionPhase.Performed && currentInteractable != null)
+        if (value.phase == InputActionPhase.Performed && currentInteractable != null && canInteract)
         {
             Debug.Log("Interacting with: " + currentInteractable.name);
+            canInteract = false;
             // Add interaction logic here
         }
     }

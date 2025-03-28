@@ -1019,7 +1019,7 @@
                     "id": "d6e3ac48-8726-44fa-8f5c-2d9d7c8e6ec6",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
