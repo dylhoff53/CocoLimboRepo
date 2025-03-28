@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
     
+    [Header("Interaction Settings")]
+    [SerializeField] private float interactRange = 3f; // How far the player can interact
+    private bool canInteract = true;
+    private GameObject currentInteractable;
+    
+
     private Vector2 moveInput;
     private Vector2 lookInput;
     private float xRotation = 0f;
@@ -44,6 +50,30 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && verticalVelocity.y < 0)
         {
             verticalVelocity.y = -2f; // Small negative value to keep grounded
+        }
+
+        if(canInteract)
+        {
+            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            RaycastHit hit;
+            
+            Debug.DrawRay(ray.origin, ray.direction * interactRange, Color.yellow);
+
+            if (Physics.Raycast(ray, out hit, interactRange))
+            {
+                if (hit.collider.CompareTag("Interactable"))
+                {
+                    currentInteractable = hit.collider.gameObject;
+                }
+                else
+                {
+                    currentInteractable = null;
+                }
+            }
+            else
+            {
+                currentInteractable = null;
+            }
         }
 
         // Handle movement
@@ -79,11 +109,10 @@ public class PlayerController : MonoBehaviour
     // Input System callback for interact
     public void OnInteract(InputAction.CallbackContext value)
     {
-        // This will trigger when E is pressed
-        if (value.phase == InputActionPhase.Performed)
+        if (value.phase == InputActionPhase.Performed && currentInteractable != null)
         {
-            Debug.Log("Interact button pressed!");
-            // Add your interaction logic here
+            Debug.Log("Interacting with: " + currentInteractable.name);
+            // Add interaction logic here
         }
     }
 
