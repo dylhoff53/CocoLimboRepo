@@ -4,7 +4,7 @@ using TMPro;
 
 public class DialogueBox : MonoBehaviour
 {
-    //Message stuff
+    [Header("Message Text Stuff")]
     public string characterNameString;
     public string[] messageLines;
     public string fullMessage = "";
@@ -17,7 +17,7 @@ public class DialogueBox : MonoBehaviour
     private int charIndex = 0;
     private int sentenceIndex = 0;
 
-    //Timer
+    [Header("Timer Stuff")]
     public float timePerChar;
     public float timeBetweenSentence;
     public float speedVariance;
@@ -26,58 +26,70 @@ public class DialogueBox : MonoBehaviour
     private float timer = 0f;
     private float sentenceTimer = 0f;
     private bool currentMessageFull = false;
+    private bool running = false;
 
-    //Audio
+    [Header("Audio Stuff")]
     public AudioSource soundEffect;
     public float pitchShiftLow;
     public float pitchShiftHigh;
 
-    void Start()
+    public void BeginDisplay()
     {
         messageLines = reader.getSentences();
         modifiedTimePerChar = timePerChar;
 
         fullMessage = messageLines[0];
-
+        currentMessageFull = false;
+        running = true;
         dialogue.text = "";
         if (characterNameString != null)
         {
             characterName.text = characterNameString;
-        } else
+        } 
+        else
         {
             characterName.text = "";
         }
     }
 
+    private void EndDisplay()
+    {
+        running = false;
+        this.gameObject.SetActive(false);
+    }
+
     void Update()
     {
-        if (currentMessageFull == false)
+        if (running == true)
         {
-            timer += Time.deltaTime;
+            if (currentMessageFull == false)
+            {
+                timer += Time.deltaTime;
 
-            if (timer > modifiedTimePerChar)
-            {
-                UpdateCurrentMessage();
-                timer = 0f;
-            }
-        }
-        else
-        {
-            
-            sentenceTimer += Time.deltaTime;
-            if (sentenceTimer > timeBetweenSentence)
-            {
-                charIndex = 0;
-                if (sentenceIndex < messageLines.Length-1)
+                if (timer > modifiedTimePerChar)
                 {
-                    sentenceIndex++;
-                    fullMessage = messageLines[sentenceIndex];
-                    currentMessageFull = false;
+                    UpdateCurrentMessage();
                     timer = 0f;
-                } 
-                else
+                }
+            }
+            else
+            {
+
+                sentenceTimer += Time.deltaTime;
+                if (sentenceTimer > timeBetweenSentence)
                 {
-                    //Done showing all sentences
+                    charIndex = 0;
+                    if (sentenceIndex < messageLines.Length - 1)
+                    {
+                        sentenceIndex++;
+                        fullMessage = messageLines[sentenceIndex];
+                        currentMessageFull = false;
+                        timer = 0f;
+                    }
+                    else
+                    {
+                        EndDisplay();
+                    }
                 }
             }
         }

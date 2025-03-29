@@ -128,6 +128,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Interacting with: " + currentInteractable.name);
             canInteract = false;
             // Add interaction logic here
+            currentInteractable.GetComponent<DiagHandler>().BeginDisplay();
         }
     }
 
